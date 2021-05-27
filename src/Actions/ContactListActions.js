@@ -4,3 +4,10 @@ export const getContacts = (list) => {
         payload: list
     }
 }
+
+export const onAddContact = (newContacts) => {
+    return {
+        type: "ADD_CONTACT",
+        payload: newContacts
+    }
+}

@@ -1,5 +1,15 @@
 import React, { Fragment } from "react";
 import { v4 as uuidv4 } from 'uuid';
+
+// Redux 
+import { connect } from "react-redux";
+
+// Action
+import { onAddContact } from "../../Actions/ContactListActions"
+
+// Service
+import { updateContacts } from "../../Services/api-service";
+
 import { Redirect } from "react-router-dom";
 class AddContact extends React.Component {
 
@@ -58,7 +68,7 @@ class AddContact extends React.Component {
     sendForm = (e) => {
         e.preventDefault();
         const { Avatar, Gender, Name, Phone, Email, Status } = this.state;
-        const { onAddContact } = this.props;
+        const { onAddContact, List } = this.props;
         const newContact = {
             "Id": uuidv4(),
             "Avatar": parseInt(Avatar),
@@ -68,10 +78,14 @@ class AddContact extends React.Component {
             "Email": Email,
             "Status": Status,
         }
-        this.setState({
-            "isRedirect": true
-        })
-        onAddContact(newContact)
+        let tmpList = List.slice();
+        tmpList.unshift(newContact);
+        console.log("tmpList ", tmpList)
+        // this.setState({
+        //     "isRedirect": true
+        // })
+        updateContacts(tmpList)
+        onAddContact(tmpList)
     }
 
     render() {
@@ -125,4 +139,13 @@ class AddContact extends React.Component {
     }
 }
 
-export default AddContact;
+const mapStateToProps = ({ ContactListReducer }) => {
+    const { List } = ContactListReducer;
+    console.log("mapStateToProps ====>>", ContactListReducer)
+    return { List }
+}
+const mapDispatchToProps = {
+    onAddContact
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddContact);

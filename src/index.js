@@ -61,14 +61,6 @@ class App extends Component {
     updateContacts(newList);
   }
 
-  onAddContact = (newContact) => {
-    let tmpList = this.state.List.slice();
-    tmpList.unshift(newContact);
-    this.setState({
-      List: tmpList
-    })
-    updateContacts(tmpList);
-  }
 
   searchName = (event) => {
     let searchName = event.target.value;
@@ -103,7 +95,7 @@ class App extends Component {
           <Switch>
             <Route path="/" exact render={() => <ContactList />} />
             <Route path="/about" exact component={About} />
-            <Route path="/add-contact" exact render={() => <AddContact onAddContact={this.onAddContact} />} />
+            <Route path="/add-contact" exact render={() => <AddContact />} />
             <Route path="/edit-contact" exact render={() => <EditContact onEditCurrentContact={this.onEditCurrentContact} Contact={CurrentContact} />} />
             <Route component={NotFound} />
           </Switch>
